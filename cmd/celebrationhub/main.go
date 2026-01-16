@@ -31,7 +31,8 @@ func run(ctx context.Context, w io.Writer, args []string) error {
 	logger := log.New(w, "[CelebrationHub] ", log.LstdFlags)
 
 	// 1. Init Dependencies
-	repo, err := repository.NewSQLiteRepository("celebration.db")
+	dsn := "host=localhost user=user password=password dbname=celebrationhub port=5432 sslmode=disable"
+	repo, err := repository.NewPostgresRepository(dsn)
 	if err != nil {
 		return fmt.Errorf("failed to init db: %w", err)
 	}
@@ -64,7 +65,7 @@ func run(ctx context.Context, w io.Writer, args []string) error {
 	if err := httpServer.Shutdown(shutdownCtx); err != nil {
 		return fmt.Errorf("error shutting down http server: %w", err)
 	}
-	
+
 	logger.Println("server stopped")
 	return nil
 }
