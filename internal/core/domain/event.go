@@ -8,13 +8,13 @@ import (
 type EventType string
 
 const (
-	EventTypeBirthday    EventType = "Aniversário"
-	EventTypeWedding     EventType = "Casamento"
-	EventTypeDating      EventType = "Namoro"
-	EventTypePet         EventType = "Pet"
-	EventTypeWork        EventType = "Trabalho"
-	EventTypeBereavement EventType = "Luto"
-	EventTypeOther       EventType = "Outro"
+	EventTypeBirthday    EventType = "aniversario"
+	EventTypeWedding     EventType = "casamento"
+	EventTypeDating      EventType = "namoro"
+	EventTypePet         EventType = "pet"
+	EventTypeWork        EventType = "trabalho"
+	EventTypeBereavement EventType = "luto"
+	EventTypeOther       EventType = "outro"
 )
 
 type NotificationChannel string

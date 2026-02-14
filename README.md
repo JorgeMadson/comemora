@@ -61,7 +61,7 @@ curl -X POST http://localhost:8080/events \
     "name": "Ana Souza",
     "day": 20,
     "month": 5,
-    "type": "Aniversário",
+    "type": "aniversario",
     "is_important": true,
     "preferred_channel": "WhatsApp",
     "contact_destination": "+5511999998888"

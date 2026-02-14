@@ -1,0 +1,152 @@
+{
+	"info": {
+		"name": "Comemora API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080"
+		}
+	],
+	"item": [
+		{
+			"name": "Create Event - Aniversário",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Aniversário do Jorge\",\n  \"day\": 15,\n  \"month\": 3,\n  \"year\": 1990,\n  \"type\": \"aniversario\",\n  \"is_important\": true,\n  \"preferred_channel\": \"WhatsApp\",\n  \"contact_destination\": \"+5511999999999\",\n  \"custom_message\": \"Feliz aniversário!\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/events",
+					"host": ["{{base_url}}"],
+					"path": ["events"]
+				}
+			}
+		},
+		{
+			"name": "Create Event - Casamento",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Aniversário de Casamento\",\n  \"day\": 20,\n  \"month\": 6,\n  \"year\": 2018,\n  \"type\": \"casamento\",\n  \"is_important\": true,\n  \"preferred_channel\": \"Email\",\n  \"contact_destination\": \"jorge@email.com\",\n  \"custom_message\": \"Parabéns pelo aniversário de casamento!\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/events",
+					"host": ["{{base_url}}"],
+					"path": ["events"]
+				}
+			}
+		},
+		{
+			"name": "Create Event - Pet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Aniversário do Rex\",\n  \"day\": 10,\n  \"month\": 12,\n  \"year\": 2020,\n  \"type\": \"pet\",\n  \"is_important\": false,\n  \"preferred_channel\": \"SMS\",\n  \"contact_destination\": \"+5511988888888\",\n  \"custom_message\": \"Parabéns pro Rex!\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/events",
+					"host": ["{{base_url}}"],
+					"path": ["events"]
+				}
+			}
+		},
+		{
+			"name": "Create Event - Trabalho",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Aniversário da Empresa\",\n  \"day\": 1,\n  \"month\": 9,\n  \"year\": 2015,\n  \"type\": \"trabalho\",\n  \"is_important\": false,\n  \"preferred_channel\": \"Teams\",\n  \"contact_destination\": \"equipe@empresa.com\",\n  \"custom_message\": \"Parabéns pelo aniversário da empresa!\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/events",
+					"host": ["{{base_url}}"],
+					"path": ["events"]
+				}
+			}
+		},
+		{
+			"name": "List Events",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "{{base_url}}/events",
+					"host": ["{{base_url}}"],
+					"path": ["events"]
+				}
+			}
+		},
+		{
+			"name": "Export Events (CSV)",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "{{base_url}}/events/export",
+					"host": ["{{base_url}}"],
+					"path": ["events", "export"]
+				}
+			}
+		},
+		{
+			"name": "Import Events (CSV)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/csv"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "name,day,month,year,type,is_important,preferred_channel,contact_destination,custom_message\nTeste Import,25,12,2000,outro,false,Email,teste@email.com,Mensagem de teste"
+				},
+				"url": {
+					"raw": "{{base_url}}/events/import",
+					"host": ["{{base_url}}"],
+					"path": ["events", "import"]
+				}
+			}
+		},
+		{
+			"name": "Trigger Check and Notify",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "{{base_url}}/trigger-check",
+					"host": ["{{base_url}}"],
+					"path": ["trigger-check"]
+				}
+			}
+		}
+	]
+}
