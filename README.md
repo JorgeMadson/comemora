@@ -1,6 +1,6 @@
-# 🎉 CelebrationHub
+# 🎉 Comemora
 
-**CelebrationHub** é um backend leve e eficiente para gerenciamento de aniversários e datas comemorativas, construído em **Go** seguindo os princípios de **Clean Architecture (Hexagonal)**.
+**Comemora** é um backend leve e eficiente para gerenciamento de aniversários e datas comemorativas, construído em **Go** seguindo os princípios de **Clean Architecture (Hexagonal)**.
 
 O sistema opera sem interface gráfica ("headless"), focado em gerenciar eventos e orquestrar notificações automáticas via integrações (Teams, WhatsApp, Email).
 
@@ -30,8 +30,8 @@ O sistema opera sem interface gráfica ("headless"), focado em gerenciar eventos
 
 1.  Clone o repositório (ou baixe os arquivos):
     ```bash
-    git clone https://github.com/seu-usuario/celebrationhub.git
-    cd celebrationhub
+    git clone https://github.com/seu-usuario/comemora.git
+    cd comemora
     ```
 
 2.  Instale as dependências:
@@ -41,12 +41,12 @@ O sistema opera sem interface gráfica ("headless"), focado em gerenciar eventos
 
 3.  Execute o servidor:
     ```bash
-    go run cmd/celebrationhub/main.go
+    go run cmd/comemora/main.go
     ```
 
     O servidor iniciará na porta `8080`. Você verá logs como:
     ```
-    [CelebrationHub] 2026/01/16 12:00:00 listening on [::]:8080
+    [Comemora] 2026/01/16 12:00:00 listening on [::]:8080
     ```
 
 ## 🔌 Guia da API
@@ -112,7 +112,7 @@ Para que o sistema funcione sozinho, você deve configurar uma tarefa agendada n
 
 Para desenvolvedores que desejam manter ou estender o projeto:
 
-*   `cmd/celebrationhub/`: Ponto de entrada (`main.go`). Onde tudo é conectado.
+*   `cmd/comemora/`: Ponto de entrada (`main.go`). Onde tudo é conectado.
 *   `internal/core/`:
     *   `domain/`: Onde vivem as Entidades (`Event`) e regras de negócio puras.
     *   `ports/`: Interfaces (contratos) para Repositórios e Notificadores.

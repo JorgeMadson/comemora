@@ -1,10 +1,10 @@
 package main
 
 import (
-	"celebrationhub/internal/adapters/handler"
-	"celebrationhub/internal/adapters/notifier"
-	"celebrationhub/internal/adapters/repository"
-	"celebrationhub/internal/core/services"
+	"comemora/internal/adapters/handler"
+	"comemora/internal/adapters/notifier"
+	"comemora/internal/adapters/repository"
+	"comemora/internal/core/services"
 	"context"
 	"fmt"
 	"io"
@@ -28,10 +28,10 @@ func run(ctx context.Context, w io.Writer, args []string) error {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
 
-	logger := log.New(w, "[CelebrationHub] ", log.LstdFlags)
+	logger := log.New(w, "[Comemora] ", log.LstdFlags)
 
 	// 1. Init Dependencies
-	dsn := "host=localhost user=user password=password dbname=celebrationhub port=5432 sslmode=disable"
+	dsn := "host=localhost user=user password=password dbname=comemora port=5432 sslmode=disable"
 	repo, err := repository.NewPostgresRepository(dsn)
 	if err != nil {
 		return fmt.Errorf("failed to init db: %w", err)

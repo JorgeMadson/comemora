@@ -1,7 +1,7 @@
 package ports
 
 import (
-	"celebrationhub/internal/core/domain"
+	"comemora/internal/core/domain"
 	"context"
 )
 

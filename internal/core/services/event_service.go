@@ -2,8 +2,8 @@ package services
 
 import (
 	"bytes"
-	"celebrationhub/internal/core/domain"
-	"celebrationhub/internal/core/ports"
+	"comemora/internal/core/domain"
+	"comemora/internal/core/ports"
 	"context"
 	"encoding/csv"
 	"fmt"

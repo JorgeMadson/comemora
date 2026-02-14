@@ -1,9 +1,9 @@
-# CelebrationHub - AI Context & Documentation
+# Comemora - AI Context & Documentation
 
 Este documento serve como guia para Agentes de IA e desenvolvedores que venham a manter este projeto.
 
 ## 🎯 Propósito do Projeto
-**CelebrationHub** é um sistema backend "headless" para gerenciamento de datas comemorativas (aniversários, eventos, etc.).
+**Comemora** é um sistema backend "headless" para gerenciamento de datas comemorativas (aniversários, eventos, etc.).
 O objetivo principal é ser **simples, leve e desacoplado**. Ele não possui Frontend acoplado; funciona via API REST e Cron Jobs.
 
 ## 🏗 Arquitetura: Clean Architecture (Hexagonal)

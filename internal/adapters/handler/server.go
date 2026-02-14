@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"celebrationhub/internal/core/ports"
+	"comemora/internal/core/ports"
 	"log"
 	"net/http"
 

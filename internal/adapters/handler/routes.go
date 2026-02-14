@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"celebrationhub/internal/core/ports"
+	"comemora/internal/core/ports"
 	"log"
 
 	"github.com/go-chi/chi/v5"

@@ -3,12 +3,12 @@ version: '3.8'
 services:
   db:
     image: postgres:16-alpine
-    container_name: celebration-db
-    # restart: always
+    container_name: comemora-db
+    restart: always
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: celebrationhub
+      POSTGRES_DB: comemora
     ports:
       - "5432:5432"
     volumes:

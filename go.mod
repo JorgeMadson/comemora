@@ -1,4 +1,4 @@
-module celebrationhub
+module comemora
 
 go 1.21
 

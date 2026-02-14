@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"celebrationhub/internal/core/domain"
-	"celebrationhub/internal/core/ports"
+	"comemora/internal/core/domain"
+	"comemora/internal/core/ports"
 	"io"
 	"net/http"
 )

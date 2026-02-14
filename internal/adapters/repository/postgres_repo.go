@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"celebrationhub/internal/core/domain"
+	"comemora/internal/core/domain"
 	"context"
 
 	"gorm.io/driver/postgres"

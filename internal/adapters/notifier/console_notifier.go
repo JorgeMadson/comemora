@@ -1,7 +1,7 @@
 package notifier
 
 import (
-	"celebrationhub/internal/core/domain"
+	"comemora/internal/core/domain"
 	"context"
 	"fmt"
 	"log"
