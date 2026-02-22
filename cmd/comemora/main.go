@@ -36,15 +36,19 @@ func run(ctx context.Context, w io.Writer, args []string) error {
 	logger := log.New(w, "[Comemora] ", log.LstdFlags)
 
 	// 1. Init Dependencies
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
-		getEnv("DB_HOST", "localhost"),
-		getEnv("DB_USER", "user"),
-		getEnv("DB_PASSWORD", "password"),
-		getEnv("DB_NAME", "comemora"),
-		getEnv("DB_PORT", "5432"),
-		getEnv("DB_SSLMODE", "disable"),
-	)
+	// Prefer DATABASE_URL (Railway standard) over individual DB_* vars
+	dsn := os.Getenv("DATABASE_URL")
+	if dsn == "" {
+		dsn = fmt.Sprintf(
+			"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
+			getEnv("DB_HOST", "localhost"),
+			getEnv("DB_USER", "user"),
+			getEnv("DB_PASSWORD", "password"),
+			getEnv("DB_NAME", "comemora"),
+			getEnv("DB_PORT", "5432"),
+			getEnv("DB_SSLMODE", "disable"),
+		)
+	}
 	repo, err := repository.NewPostgresRepository(dsn)
 	if err != nil {
 		return fmt.Errorf("failed to init db: %w", err)
@@ -54,7 +58,8 @@ func run(ctx context.Context, w io.Writer, args []string) error {
 	service := services.NewEventService(repo, notif)
 
 	// 2. Init Server
-	serverPort := getEnv("SERVER_PORT", "8080")
+	// Railway sets PORT; SERVER_PORT as fallback for local dev
+	serverPort := getEnv("PORT", getEnv("SERVER_PORT", "8080"))
 	srvHandler := handler.NewServer(service, logger)
 	httpServer := &http.Server{
 		Addr:    net.JoinHostPort("0.0.0.0", serverPort),
