@@ -11,8 +11,10 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
+	"strings"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -47,6 +49,25 @@ func run(ctx context.Context, w io.Writer, args []string) error {
 			getEnv("DB_NAME", "comemora"),
 			getEnv("DB_PORT", "5432"),
 			getEnv("DB_SSLMODE", "disable"),
+		)
+	} else if strings.HasPrefix(dsn, "postgresql://") || strings.HasPrefix(dsn, "postgres://") {
+		u, err := url.Parse(dsn)
+		if err != nil {
+			return fmt.Errorf("invalid DATABASE_URL: %w", err)
+		}
+		password, _ := u.User.Password()
+		port := u.Port()
+		if port == "" {
+			port = "5432"
+		}
+		sslmode := u.Query().Get("sslmode")
+		if sslmode == "" {
+			sslmode = "disable"
+		}
+		dsn = fmt.Sprintf(
+			"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
+			u.Hostname(), u.User.Username(), password,
+			strings.TrimPrefix(u.Path, "/"), port, sslmode,
 		)
 	}
 	repo, err := repository.NewPostgresRepository(dsn)

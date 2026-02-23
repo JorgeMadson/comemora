@@ -20,4 +20,5 @@ func addRoutes(
 	})
 
 	mux.Get("/trigger-check", handleTriggerCheck(service))
+	mux.Get("/health", handleHealth())
 }
