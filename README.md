@@ -167,32 +167,6 @@ curl -X POST http://localhost:8080/events/import \
 
 O formato do CSV deve seguir o mesmo padrão do export: `ID,Name,Day,Month,Year,Type,IsImportant,Channel,Contact`.
 
-### 6. Importar do Facebook
-
-```bash
-curl -X POST http://localhost:8080/events/import-facebook \
-  -H "Content-Type: application/json" \
-  -d '[{"name": "João Silva", "day": 0, "month": 3, "year": 0}]'
-```
-
-Retorna um JSON com o resultado:
-```json
-{"imported": 42, "skipped": 2}
-```
-
-## Script de Importação do Facebook
-
-O arquivo `scripts/facebook-birthdays.js` automatiza a extração de aniversários da página de amigos do Facebook.
-
-**Como usar:**
-
-1. Acesse `https://www.facebook.com/friends/birthdays` no navegador
-2. Role a página até o final para carregar todos os meses
-3. Abra o DevTools (`F12`) > aba **Console**
-4. Cole o conteúdo do arquivo `scripts/facebook-birthdays.js` e pressione Enter
-
-O script tenta enviar direto para `http://localhost:8080/events/import-facebook`. Se o servidor não estiver acessível, copia o JSON para o clipboard.
-
 ## Automação com Cron Job
 
 Configure uma tarefa agendada para chamar o trigger diariamente:
@@ -221,7 +195,6 @@ comemora/
 │       ├── handler/      # HTTP handlers, rotas (Chi)
 │       ├── repository/   # PostgresRepository (GORM)
 │       └── notifier/     # ConsoleNotifier (log)
-├── scripts/              # Scripts utilitários (importação do Facebook)
 ├── docs/                 # Decisões de arquitetura (ADRs)
 ├── docker-compose.yml    # PostgreSQL local
 └── .env.example          # Variáveis de ambiente de exemplo
