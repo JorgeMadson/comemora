@@ -42,6 +42,11 @@ func handleCreateEvent(service ports.Service) http.HandlerFunc {
 			CustomMessage:      req.CustomMessage,
 		}
 
+		if err := event.Validate(); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
 		if err := service.CreateEvent(r.Context(), event); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
