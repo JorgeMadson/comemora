@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"errors"
 	"strings"
 	"time"
 )
@@ -66,9 +67,41 @@ func (e *Event) GetContent() string {
 		tmpl = defaultMessages[EventTypeDefault]
 	}
 
-	return replacePlaceholder(tmpl, "{name}", e.Name)
+	return strings.ReplaceAll(tmpl, "{name}", e.Name)
 }
 
-func replacePlaceholder(tmpl, placeholder, value string) string {
-	return strings.ReplaceAll(tmpl, placeholder, value)
+func (e EventType) IsValid() bool {
+	_, ok := defaultMessages[e]
+	return ok
 }
+
+func (c NotificationChannel) IsValid() bool {
+	switch c {
+	case ChannelEmail, ChannelTeams, ChannelWhatsApp, ChannelSMS, ChannelTelegram, ChannelDiscord:
+		return true
+	}
+	return false
+}
+
+func (e *Event) Validate() error {
+	if strings.TrimSpace(e.Name) == "" {
+		return errors.New("name is required")
+	}
+	if e.Day < 1 || e.Day > 31 {
+		return errors.New("day must be between 1 and 31")
+	}
+	if e.Month < 1 || e.Month > 12 {
+		return errors.New("month must be between 1 and 12")
+	}
+	if !e.Type.IsValid() {
+		return errors.New("invalid event type: must be one of aniversario, casamento, namoro, pet, trabalho, luto, outro")
+	}
+	if e.PreferredChannel != "" && !e.PreferredChannel.IsValid() {
+		return errors.New("invalid preferred_channel: must be one of Email, Teams, WhatsApp, SMS, Telegram, Discord")
+	}
+	if strings.TrimSpace(e.ContactDestination) == "" {
+		return errors.New("contact_destination is required")
+	}
+	return nil
+}
+
