@@ -2,6 +2,8 @@
 
 **Comemora** é um backend para gerenciamento de aniversários e datas comemorativas, construído em **Go** seguindo os princípios de **Clean Architecture (Hexagonal)**.
 
+prod url: [comemora.up.railway.app](https://comemora.up.railway.app)
+
 O sistema opera sem interface gráfica ("headless"), focado em gerenciar eventos e orquestrar notificações automáticas via integrações (Teams, WhatsApp, Email).
 
 ## Funcionalidades
