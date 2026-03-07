@@ -25,9 +25,8 @@ func NewEventService(repo ports.EventRepository, notifier ports.Notifier) *Event
 }
 
 func (s *EventService) CreateEvent(ctx context.Context, event *domain.Event) error {
-	// Basic validation could go here
-	if event.Name == "" {
-		return fmt.Errorf("event name is required")
+	if err := event.Validate(); err != nil {
+		return err
 	}
 	return s.repo.Save(ctx, event)
 }
@@ -108,6 +107,9 @@ func (s *EventService) ImportEvents(ctx context.Context, data []byte) error {
 			ContactDestination: record[8],
 		}
 
+		if err := event.Validate(); err != nil {
+			return fmt.Errorf("line %d: %w", r.InputOffset(), err)
+		}
 		if err := s.repo.Save(ctx, event); err != nil {
 			return err
 		}
