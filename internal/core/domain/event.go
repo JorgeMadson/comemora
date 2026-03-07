@@ -24,6 +24,8 @@ const (
 	ChannelTeams    NotificationChannel = "Teams"
 	ChannelWhatsApp NotificationChannel = "WhatsApp"
 	ChannelSMS      NotificationChannel = "SMS"
+	ChannelTelegram NotificationChannel = "Telegram"
+	ChannelDiscord  NotificationChannel = "Discord"
 )
 
 type Event struct {
