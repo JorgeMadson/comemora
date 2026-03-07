@@ -8,6 +8,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"io"
+	"log"
 	"strconv"
 	"time"
 )
@@ -72,23 +73,25 @@ func (s *EventService) ExportEvents(ctx context.Context) ([]byte, error) {
 func (s *EventService) ImportEvents(ctx context.Context, data []byte) error {
 	r := csv.NewReader(bytes.NewReader(data))
 
-	// Skip header
-	if _, err := r.Read(); err != nil { // Read header
+	// Skip header row (line 1)
+	if _, err := r.Read(); err != nil {
 		return err
 	}
 
+	// line starts at 2 because line 1 is the header
+	line := 2
 	for {
 		record, err := r.Read()
 		if err == io.EOF {
 			break
 		}
 		if err != nil {
-			return err
+			return fmt.Errorf("line %d: %w", line, err)
 		}
+		line++
 
-		// Simple mapping - assumes strict CSV format matching Export
 		if len(record) < 9 {
-			continue // skip invalid lines
+			return fmt.Errorf("line %d: expected 9 columns, got %d", line, len(record))
 		}
 
 		day, _ := strconv.Atoi(record[2])
@@ -108,7 +111,7 @@ func (s *EventService) ImportEvents(ctx context.Context, data []byte) error {
 		}
 
 		if err := event.Validate(); err != nil {
-			return fmt.Errorf("line %d: %w", r.InputOffset(), err)
+			return fmt.Errorf("line %d: %w", line, err)
 		}
 		if err := s.repo.Save(ctx, event); err != nil {
 			return err
@@ -137,20 +140,17 @@ func (s *EventService) CheckAndNotify(ctx context.Context) error {
 	// here we just send notifications.
 
 	for _, e := range todayEvents {
-		// Log or wrap context
-		fmt.Printf("Processing Today Event: %s\n", e.Name)
+		log.Printf("Processing today event: %s", e.Name)
 		if err := s.notifier.Send(ctx, e); err != nil {
-			fmt.Printf("Failed to notify for event %d: %v\n", e.ID, err)
-			// don't break, try others
+			log.Printf("Failed to notify for event %d: %v", e.ID, err)
 		}
 	}
 
 	for _, e := range upcomingEvents {
 		if e.IsImportant {
-			fmt.Printf("Processing Upcoming Important Event: %s\n", e.Name)
-			// Maybe modify message to say "Upcoming in 3 days"
+			log.Printf("Processing upcoming important event: %s", e.Name)
 			if err := s.notifier.Send(ctx, e); err != nil {
-				fmt.Printf("Failed to notify for upcoming event %d: %v\n", e.ID, err)
+				log.Printf("Failed to notify for upcoming event %d: %v", e.ID, err)
 			}
 		}
 	}
