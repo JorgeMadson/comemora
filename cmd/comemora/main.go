@@ -4,6 +4,7 @@ import (
 	"comemora/internal/adapters/handler"
 	"comemora/internal/adapters/notifier"
 	"comemora/internal/adapters/repository"
+	"comemora/internal/core/domain"
 	"comemora/internal/core/services"
 	"context"
 	"fmt"
@@ -75,8 +76,31 @@ func run(ctx context.Context, w io.Writer, args []string) error {
 		return fmt.Errorf("failed to init db: %w", err)
 	}
 
-	notif := notifier.NewConsoleNotifier(logger)
-	service := services.NewEventService(repo, notif)
+	console := notifier.NewConsoleNotifier(logger)
+	multi := notifier.NewMultiNotifier(console)
+
+	if key := os.Getenv("RESEND_API_KEY"); key != "" {
+		multi.Register(domain.ChannelEmail, notifier.NewEmailNotifier(key, getEnv("RESEND_FROM", "Comemora <noreply@comemora.app>")))
+		logger.Println("notifier: Email (Resend) enabled")
+	}
+	if k, b, f := os.Getenv("INFOBIP_API_KEY"), os.Getenv("INFOBIP_BASE_URL"), os.Getenv("INFOBIP_FROM_NUMBER"); k != "" && b != "" && f != "" {
+		multi.Register(domain.ChannelWhatsApp, notifier.NewWhatsAppNotifier(k, b, f))
+		logger.Println("notifier: WhatsApp (Infobip) enabled")
+	}
+	if url := os.Getenv("TEAMS_WEBHOOK_URL"); url != "" {
+		multi.Register(domain.ChannelTeams, notifier.NewTeamsNotifier(url))
+		logger.Println("notifier: Teams enabled")
+	}
+	if token := os.Getenv("TELEGRAM_BOT_TOKEN"); token != "" {
+		multi.Register(domain.ChannelTelegram, notifier.NewTelegramNotifier(token))
+		logger.Println("notifier: Telegram enabled")
+	}
+	if url := os.Getenv("DISCORD_WEBHOOK_URL"); url != "" {
+		multi.Register(domain.ChannelDiscord, notifier.NewDiscordNotifier(url))
+		logger.Println("notifier: Discord enabled")
+	}
+
+	service := services.NewEventService(repo, multi)
 
 	// 2. Init Server
 	// Railway sets PORT; SERVER_PORT as fallback for local dev
