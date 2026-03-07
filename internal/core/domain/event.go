@@ -55,8 +55,6 @@ var defaultMessages = map[EventType]string{
 	EventTypeOther:       "Olá {name}, hoje é um dia especial! 🎉",
 }
 
-const EventTypeDefault EventType = EventTypeOther
-
 func (e *Event) GetContent() string {
 	if e.CustomMessage != "" {
 		return e.CustomMessage
@@ -64,7 +62,7 @@ func (e *Event) GetContent() string {
 
 	tmpl, ok := defaultMessages[e.Type]
 	if !ok {
-		tmpl = defaultMessages[EventTypeDefault]
+		tmpl = defaultMessages[EventTypeOther]
 	}
 
 	return strings.ReplaceAll(tmpl, "{name}", e.Name)
